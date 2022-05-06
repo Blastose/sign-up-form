@@ -25,6 +25,13 @@ body {
   padding-right: 32px;  
 }
 
+.blurb {
+  display: flex;
+  flex-direction: column;
+  margin-top: 32px;
+  gap: 8px;
+}
+
 .sign-up-form-container {
   background-color: rgb(227, 255, 227);
   display: flex;
@@ -62,6 +69,7 @@ body {
 @media only screen and (min-width: 600px) {
   .container {
     flex-direction: row;
+    height: auto;
   }
 
   .form-row {
@@ -71,7 +79,7 @@ body {
 
   .sign-up-form-container {
     flex: 1;
-    height: 100vh;
+    min-height: 100vh;
   }
 
   .sign-up-form-container > .blurb {
