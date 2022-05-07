@@ -4,8 +4,8 @@ body {
 }
 
 .form-title {
-  padding: 0;
-  margin: 0;
+  margin-top: 8px;
+  margin-bottom: 16px;
 }
 
 .container {
@@ -47,7 +47,7 @@ body {
 }
 
 .sign-up-form-container {
-  background-color: rgb(227, 255, 227);
+  background-color: rgb(236, 243, 241);
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -64,20 +64,27 @@ body {
 .form-input {
   display: flex;
   flex-direction: column;
-  background-color: rgb(223, 223, 255);
+  background-color: rgb(255, 255, 255);
   padding-top: 16px;
-  padding-bottom: 16px;
-  box-shadow: 0px 12px 8px -8px rgb(201, 201, 201);
+  padding-bottom: 32px;
+  box-shadow: 0px -8px 8px -8px rgb(201, 201, 201), 0px 12px 8px -6px rgb(201, 201, 201);
 }
 
 .form-row {
   display: flex;
   flex-direction: column;
+  gap: 18px;
 }
 
 .form-item {
   display: flex;
   flex-direction: column;
+}
+
+.sign-up-info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 @media only screen and (min-width: 600px) {
