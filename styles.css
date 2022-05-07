@@ -14,8 +14,22 @@ body {
   height: 100vh;
 }
 
+.image-text {
+  background-color: rgba(132, 235, 146, 0.473);
+  display: flex;
+  flex-direction: column;
+  color: white;
+  gap: 16px;
+}
+
+.text {
+  padding: 0;
+  margin: 0;
+}
+
 .background-image {
-  background-color: lightgreen;
+  background-image: url(./images/alfons-morales-YLSwjSy7stw-unsplash.jpg);
+  height: 200px;
 }
 
 .wrapper {
@@ -70,6 +84,11 @@ body {
   .container {
     flex-direction: row;
     height: auto;
+  }
+
+  .background-image {
+    height: auto;
+    width: 350px;
   }
 
   .form-row {
