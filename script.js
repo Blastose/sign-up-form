@@ -1,19 +1,3 @@
-function setInputValues() {
-  const firstNameInput = document.getElementById('first-name');
-  const lastNameInput = document.getElementById('last-name');
-  const emailInput = document.getElementById('email');
-  const phoneNumberInput = document.getElementById('phone-number');
-  const passwordInput = document.getElementById('password');
-  const confirmPasswordInput = document.getElementById('confirm-password');
-
-  firstNameInput.value = "Jim";
-  lastNameInput.value = "Jim";
-  emailInput.value = "Jim";
-  phoneNumberInput.value = "604-666-6666";
-  passwordInput.value = "Jim";
-  confirmPasswordInput.value = "Jim";
-}
-
 function validateRequired(element) {
   if (element.value.length <= 0) {
     return false;
@@ -47,61 +31,78 @@ function addValidateRequiredEventListener(element, elementTextmessage, message) 
 }
 
 function addCheckSamePasswordEventListener(element, elementMessage, otherElement, otherElementMessage) {
-  element.addEventListener('change', (e) => {
-    checkSamePassword(e.target, elementMessage, otherElement, otherElementMessage);
+  element.addEventListener('change', () => {
+    if (checkSamePassword(element, otherElement)) {
+      removeError(element);
+      removeError(otherElement);
+      removeErrorMessage(elementMessage);
+      removeErrorMessage(otherElementMessage);
+    } else {
+      setError(element);
+      setError(otherElement);
+      setErrorMessage(otherElementMessage, "! Passwords must match");
+    }
   });
-  otherElement.addEventListener('change', (e) => {
-    checkSamePassword(e.target, elementMessage, element, otherElementMessage);
+  otherElement.addEventListener('change', () => {
+    if (checkSamePassword(otherElement, element)) {
+      removeError(element);
+      removeError(otherElement);
+      removeErrorMessage(elementMessage);
+      removeErrorMessage(otherElementMessage);
+    } else {
+      setError(element);
+      setError(otherElement);
+      setErrorMessage(otherElementMessage, "! Passwords must match");
+    }
   });
 }
 
-function checkSamePassword(passwordElement, passwordElementMessage, confirmPasswordElement, confirmPasswordMessage) {
+function checkSamePassword(passwordElement, confirmPasswordElement) {
   if (passwordElement.value !== confirmPasswordElement.value && confirmPasswordElement.value.length !== 0) {
-    setError(passwordElement);
-    setError(confirmPasswordElement);
-    setErrorMessage(confirmPasswordMessage, "! Passwords must match");
+    return false;
   } else {
-    removeError(passwordElement);
-    removeError(confirmPasswordElement);
-    removeErrorMessage(passwordElementMessage);
-    removeErrorMessage(confirmPasswordMessage);
+    return true;
   }
 }
 
 function addCheckPasswordLengthEventListener(requiredLength, passwordElement, passwordMessage) {
   passwordElement.addEventListener('change', () => {
-    checkPasswordLength(requiredLength, passwordElement, passwordMessage);
+    if (checkPasswordLength(requiredLength, passwordElement)) {
+      removeError(passwordElement);
+      removeErrorMessage(passwordMessage);
+    } else {
+      setError(passwordElement);
+      setErrorMessage(passwordMessage, "! Minimum 6 characters required")
+    }
   })
 }
 
-function checkPasswordLength(requiredLength, passwordElement, passwordMessage) {
+function checkPasswordLength(requiredLength, passwordElement) {
   if (passwordElement.value.length < requiredLength) {
-    setError(passwordElement);
-    setErrorMessage(passwordMessage, "! Minimum 6 characters required")
+    return false;
   } else {
-    removeError(passwordElement);
-    removeErrorMessage(passwordMessage);
+    return true;
   }
 }
 
 function addCheckEmailEventListener(element, elementMessage) {
-  element.addEventListener('change', (e) => {
-    checkEmail(e.target, elementMessage);
+  element.addEventListener('change', () => {
+    if (checkEmail(element)) {
+      removeError(element);
+      removeErrorMessage(elementMessage);
+    } else {
+      setError(element);
+      setErrorMessage(elementMessage, "! Enter an email address");
+    }
   })
 }
 
-function checkEmail(emailElement, elementMessage) {
+function checkEmail(emailElement) {
   if (/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(emailElement.value)) {
-    removeError(emailElement);
-    removeErrorMessage(elementMessage);
+    return true;
   } else {
-    setError(emailElement);
-    setErrorMessage(elementMessage, "! Enter an email address");
+    return false;
   }
-}
-
-function validEmail(emailAddress) {
-
 }
 
 function setErrorMessage(elementId, message) {
@@ -112,6 +113,14 @@ function combineArrays(inputElement, inputErrorElement, inputErrorMessage) {
   return inputElement.map((element, index) => {
     return [element, inputErrorElement[index], inputErrorMessage[index]];
   });
+}
+
+function validateRequiredAll(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput) {
+  return validateRequired(firstNameInput) && validateRequired(lastNameInput) && validateRequired(emailInput) && validateRequired(phoneNumberInput) && validateRequired(passwordInput) && validateRequired(confirmPasswordInput);
+}
+
+function validFormSubmission(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput) {
+  return validateRequiredAll(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput) && checkEmail(emailInput) && checkPasswordLength(6, passwordInput) && checkSamePassword(passwordInput, confirmPasswordInput);
 }
 
 const submitButton = document.getElementById('submit-button');
@@ -141,6 +150,11 @@ addCheckPasswordLengthEventListener(6, passwordInput, passwordMessage);
 const emailMessage = document.getElementById('email-error-message');
 addCheckEmailEventListener(emailInput, emailMessage);
 
-
-
-// setInputValues();
+submitButton.addEventListener('click', (e) => {
+  console.log(validFormSubmission(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput));
+  if (!validFormSubmission(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput)) {
+    
+  } else {
+    document.forms['sign-up-form-element'].submit();
+  }
+});
