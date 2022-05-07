@@ -39,6 +39,12 @@ body {
   padding-right: 32px;  
 }
 
+.wrapper-form {
+  max-width: 800px;
+  margin-right: auto;
+  padding-left: 32px;
+}
+
 .blurb {
   display: flex;
   flex-direction: column;
@@ -96,7 +102,7 @@ input[type="email"],
 input[type="text"],
 input[type="password"],
 input[type="tel"] {
-  width: 100%;
+  width: calc(100vw - 64px);
   padding: 4px 8px;
   box-sizing: border-box;
   border: 1px solid rgb(145, 151, 147);
@@ -109,7 +115,7 @@ input[type="password"]:focus,
 input[type="tel"]:focus {
   outline: 1px solid rgb(87, 172, 132);
   border: 1px solid rgb(87, 172, 132);
-  background-color: rgb(250, 255, 253);
+  box-shadow: 0px 0px 4px rgb(63, 134, 101);
 }
 
 input[type="button"] {
@@ -129,6 +135,13 @@ input[type="button"]:hover {
 }
 
 @media only screen and (min-width: 800px) {
+  input[type="email"],
+  input[type="text"],
+  input[type="password"],
+  input[type="tel"] {
+    width: 300px;
+  }
+
   .container {
     flex-direction: row;
     height: auto;
