@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign-up</title>
   <link rel="stylesheet" href="./styles.css">
+  <script src="./script.js" defer></script>
 </head>
 <body>
   <div class="container">
@@ -19,14 +20,14 @@
     <div class="sign-up-form-container">
       <div class="wrapper blurb">
         <div class="blurb-text">
-          This is not a real online service! You know you need something like this in your life to help you realize your deepest dreams. Sign up <em>now</em> to get started.
+          <strong>This is not a real online service! You know you need something like this in your life to help you realize your deepest dreams. Sign up <em>now</em> to get started.</strong>
         </div>
         <div class="blurb-text-end">
-          You <em>know</em> you want to.
+          <strong>You <em>know</em> you want to.</strong>
         </div>
       </div>
       <div class="sign-up-form">
-        <form action="" method="post">
+        <form action="" method="get">
           <div class="form">
             <div class="form-input">
               <div class="wrapper-form">
@@ -35,35 +36,35 @@
                   <div class="form-row">
                     <div class="form-item">
                       <label for="first-name">First name</label>
-                      <input type="text" name="first-name" id="first-name">
+                      <input type="text" name="first-name" id="first-name" class="form-field" required>
                     </div>
                     <div class="form-item">
                       <label for="last-name">Last name</label>
-                      <input type="text" name="last-name" id="last-name">
+                      <input type="text" name="last-name" id="last-name" class="form-field" required>
                     </div>
                   </div>
 
                   <div class="form-row">
                     <div class="form-item">
                       <label for="email">Email</label>
-                      <input type="email" name="email" id="email">
+                      <input type="email" name="email" id="email" class="form-field" required>
                     </div>
 
                     <div class="form-item">
                       <label for="phone-number">Phone number</label>
-                      <input type="tel" name="phone-number" id="phone-number">
+                      <input type="tel" name="phone-number" id="phone-number" class="form-field" required>
                     </div>
                   </div>
 
                   <div class="form-row">
                     <div class="form-item">
                       <label for="password">Password</label>
-                      <input type="password" name="password" id="password">
+                      <input type="password" name="password" id="password" class="form-field" required>
                     </div>
                     
                     <div class="form-item">
                       <label for="confirm-password">Confirm password</label>
-                      <input type="password" name="confirm-password" id="confirm-password">
+                      <input type="password" name="confirm-password" id="confirm-password" class="form-field" required>
                     </div>
                   </div>
                 </div>
@@ -71,7 +72,7 @@
             </div>
             <div class="wrapper-form">
               <div class="sign-up-submit">
-                <input type="button" value="Create Account">
+                <input type="submit" value="Create Account" id="submit-button">
               </div>
             </div>
           </div>
