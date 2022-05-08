@@ -15,11 +15,21 @@ body {
 }
 
 .image-text {
-  background-color: rgba(132, 235, 146, 0.473);
   display: flex;
   flex-direction: column;
-  color: white;
+  align-items: center;
+  color: rgb(255, 255, 255);
+  flex: 1;
   gap: 16px;
+}
+
+.image-text > .text:first-child {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 32px;
+  padding: 32px 0px;
+  background-color: rgba(180, 180, 180, 0.226);
 }
 
 .text {
@@ -30,6 +40,7 @@ body {
 .background-image {
   background-image: url(./images/alfons-morales-YLSwjSy7stw-unsplash.jpg);
   height: 200px;
+  display: flex;
 }
 
 .wrapper {
@@ -145,6 +156,11 @@ input[type="button"]:hover {
   font-size: 12px;
 }
 
+a {
+  text-decoration: none;
+  color: rgb(49, 165, 49);
+}
+
 @media only screen and (min-width: 800px) {
   input[type="email"],
   input[type="text"],
@@ -181,4 +197,22 @@ input[type="button"]:hover {
     margin-bottom: auto;
   }
   
+  .image-text > .text:first-child {
+    margin-top: 20vh;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 32px;
+    background-color: rgba(180, 180, 180, 0.459);
+  }
+
+  .image-text > .fill {
+    flex: 1;
+  }
+
+  .image-text > .text:last-child {
+    width: 100%;
+    text-align: center;
+    background-color: rgba(54, 54, 54, 0.76);
+  }
 }
