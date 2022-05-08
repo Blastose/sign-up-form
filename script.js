@@ -1,11 +1,3 @@
-function validateRequired(element) {
-  if (element.value.length <= 0) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
 function setError(element) {
   element.classList.add('error');
 }
@@ -14,13 +6,25 @@ function removeError(element) {
   element.classList.remove('error');
 }
 
+function setErrorMessage(elementId, message) {
+  elementId.textContent = message;
+}
+
 function removeErrorMessage(element) {
   element.textContent = "";
 }
 
-function addValidateRequiredEventListener(element, elementTextmessage, message) {
+function checkRequired(element) {
+  if (element.value.length <= 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function addCheckRequiredEventListener(element, elementTextmessage, message) {
   element.addEventListener('change', () => {
-    if (validateRequired(element)) {
+    if (checkRequired(element)) {
       removeError(element);
       removeErrorMessage(elementTextmessage);
     } else {
@@ -28,6 +32,14 @@ function addValidateRequiredEventListener(element, elementTextmessage, message) 
       setErrorMessage(elementTextmessage, message)
     }
   });
+}
+
+function checkSamePassword(passwordElement, confirmPasswordElement) {
+  if (passwordElement.value !== confirmPasswordElement.value && confirmPasswordElement.value.length !== 0) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 function addCheckSamePasswordEventListener(element, elementMessage, otherElement, otherElementMessage) {
@@ -57,13 +69,14 @@ function addCheckSamePasswordEventListener(element, elementMessage, otherElement
   });
 }
 
-function checkSamePassword(passwordElement, confirmPasswordElement) {
-  if (passwordElement.value !== confirmPasswordElement.value && confirmPasswordElement.value.length !== 0) {
+function checkPasswordLength(requiredLength, passwordElement) {
+  if (passwordElement.value.length < requiredLength) {
     return false;
   } else {
     return true;
   }
 }
+
 
 function addCheckPasswordLengthEventListener(requiredLength, passwordElement, passwordMessage) {
   passwordElement.addEventListener('change', () => {
@@ -77,11 +90,11 @@ function addCheckPasswordLengthEventListener(requiredLength, passwordElement, pa
   })
 }
 
-function checkPasswordLength(requiredLength, passwordElement) {
-  if (passwordElement.value.length < requiredLength) {
-    return false;
-  } else {
+function checkEmail(emailElement) {
+  if (/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(emailElement.value)) {
     return true;
+  } else {
+    return false;
   }
 }
 
@@ -97,35 +110,23 @@ function addCheckEmailEventListener(element, elementMessage) {
   })
 }
 
-function checkEmail(emailElement) {
-  if (/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(emailElement.value)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function setErrorMessage(elementId, message) {
-  elementId.textContent = message;
-}
-
 function combineArrays(inputElement, inputErrorElement, inputErrorMessage) {
   return inputElement.map((element, index) => {
     return [element, inputErrorElement[index], inputErrorMessage[index]];
   });
 }
 
-function validateRequiredAll(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput) {
-  return validateRequired(firstNameInput) && validateRequired(lastNameInput) && validateRequired(emailInput) && validateRequired(phoneNumberInput) && validateRequired(passwordInput) && validateRequired(confirmPasswordInput);
+function checkRequiredAll(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput) {
+  return checkRequired(firstNameInput) && checkRequired(lastNameInput) && checkRequired(emailInput) && checkRequired(phoneNumberInput) && checkRequired(passwordInput) && checkRequired(confirmPasswordInput);
 }
 
 function validFormSubmission(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput) {
-  return validateRequiredAll(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput) && checkEmail(emailInput) && checkPasswordLength(6, passwordInput) && checkSamePassword(passwordInput, confirmPasswordInput);
+  return checkRequiredAll(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput) && checkEmail(emailInput) && checkPasswordLength(6, passwordInput) && checkSamePassword(passwordInput, confirmPasswordInput);
 }
 
 function validateFormSubmission(formArray) {
   formArray.forEach((element) => {
-    if (!validateRequired(element[0])) {
+    if (!checkRequired(element[0])) {
       setError(element[0]);
       setErrorMessage(element[1], element[2]);
     }
@@ -148,7 +149,7 @@ const messages = ["! Enter your first name", "! Enter your last name", "! Enter 
 const formArray = combineArrays(formItems, formItemMessages, messages);
 
 formArray.forEach(arr => {
-  addValidateRequiredEventListener(arr[0], arr[1], arr[2]);
+  addCheckRequiredEventListener(arr[0], arr[1], arr[2]);
 });
 
 const confirmPasswordMessage = document.getElementById('confirm-password-error-message');
@@ -159,12 +160,9 @@ addCheckPasswordLengthEventListener(6, passwordInput, passwordMessage);
 const emailMessage = document.getElementById('email-error-message');
 addCheckEmailEventListener(emailInput, emailMessage);
 
-submitButton.addEventListener('click', (e) => {
+submitButton.addEventListener('click', () => {
   validateFormSubmission(formArray);
-  console.log(validFormSubmission(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput));
-  if (!validFormSubmission(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput)) {
-    
-  } else {
+  if (validFormSubmission(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput)) {
     document.forms['sign-up-form-element'].submit();
   }
 });
