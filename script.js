@@ -32,7 +32,7 @@ function addValidateRequiredEventListener(element, elementTextmessage, message) 
 
 function addCheckSamePasswordEventListener(element, elementMessage, otherElement, otherElementMessage) {
   element.addEventListener('change', () => {
-    if (checkSamePassword(element, otherElement)) {
+    if (checkSamePassword(element, otherElement) && checkPasswordLength(6, element)) {
       removeError(element);
       removeError(otherElement);
       removeErrorMessage(elementMessage);
@@ -44,7 +44,7 @@ function addCheckSamePasswordEventListener(element, elementMessage, otherElement
     }
   });
   otherElement.addEventListener('change', () => {
-    if (checkSamePassword(otherElement, element)) {
+    if (checkSamePassword(otherElement, element) && checkPasswordLength(6, element)) {
       removeError(element);
       removeError(otherElement);
       removeErrorMessage(elementMessage);
@@ -123,6 +123,15 @@ function validFormSubmission(firstNameInput, lastNameInput, emailInput, phoneNum
   return validateRequiredAll(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput) && checkEmail(emailInput) && checkPasswordLength(6, passwordInput) && checkSamePassword(passwordInput, confirmPasswordInput);
 }
 
+function validateFormSubmission(formArray) {
+  formArray.forEach((element) => {
+    if (!validateRequired(element[0])) {
+      setError(element[0]);
+      setErrorMessage(element[1], element[2]);
+    }
+  });
+}
+
 const submitButton = document.getElementById('submit-button');
 
 const firstNameInput = document.getElementById('first-name');
@@ -136,9 +145,9 @@ const formItems = Array.from(document.querySelectorAll('.form-field'));
 const formItemMessages = Array.from(document.querySelectorAll('.error-message'));
 const messages = ["! Enter your first name", "! Enter your last name", "! Enter an email address", "! Enter your phone number", "! Minimum 6 characters required", "! Passwords do not match"];
 
-const errorArray = combineArrays(formItems, formItemMessages, messages);
+const formArray = combineArrays(formItems, formItemMessages, messages);
 
-errorArray.forEach(arr => {
+formArray.forEach(arr => {
   addValidateRequiredEventListener(arr[0], arr[1], arr[2]);
 });
 
@@ -151,6 +160,7 @@ const emailMessage = document.getElementById('email-error-message');
 addCheckEmailEventListener(emailInput, emailMessage);
 
 submitButton.addEventListener('click', (e) => {
+  validateFormSubmission(formArray);
   console.log(validFormSubmission(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput));
   if (!validFormSubmission(firstNameInput, lastNameInput, emailInput, phoneNumberInput, passwordInput, confirmPasswordInput)) {
     
