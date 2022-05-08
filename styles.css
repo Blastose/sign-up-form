@@ -75,7 +75,11 @@ body {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
+}
+
+.log-in-message {
+  margin-bottom: 16px;
 }
 
 .form-input {
