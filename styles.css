@@ -52,7 +52,7 @@ body {
 
 .wrapper-form {
   max-width: 800px;
-  margin-right: auto;
+  padding-right: 32px;
   padding-left: 32px;
 }
 
@@ -166,7 +166,7 @@ a {
   input[type="text"],
   input[type="password"],
   input[type="tel"] {
-    width: 300px;
+    width: 100%;
   }
 
   .container {
@@ -182,6 +182,10 @@ a {
   .form-row {
     flex-direction: row;
     gap: 32px;
+  }
+
+  .form-item {
+    width: 100%;
   }
 
   .sign-up-form-container {
